@@ -56,19 +56,23 @@ endmodule
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module Instruction_Memory(									// Instruction Memory *Solo carcasa del módulo
-	input logic rst,
 	input logic [31:0] A,
 	output logic [31:0] RD
 	);
 
 endmodule
 
-	logic [31:0] 
+	logic [31:0] InstrD, PCD, PCPlus4D;
 	always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Instruction_Fetch
 		if(rst) begin
-			InstrF <= 32'b0;
-			PCF_postff <= 32'b0;
-			PCPlus4F <= 32'b0;
+			InstrD <= 32'b0;
+			PCD <= 32'b0;
+			PCPlus4D <= 32'b0;
 			end
-		else if(StallD) 
+		else if(!StallD) begin
+			InstrD <= InstrF;
+			PCD <= PCF_postff;
+			PCPlus4D <= PCPlus4F;
+			end
+	end
 			
