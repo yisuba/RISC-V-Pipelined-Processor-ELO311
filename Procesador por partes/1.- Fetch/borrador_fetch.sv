@@ -1,10 +1,9 @@
 `timescale 1ns / 1ps
 
 
-///// 09/01/25
 // Etapa de Fetch 
 ////// Está el Mux + FF + Adder del Program Counter
-////// Falta el funcionamiento del Instruction Memory (solo está el modulo y sus IO)
+////// Falta realizar Testbench
 ////// Falta implementar el FF de salida de la etapa de Instruction_Fetch
 ////////////////////////////
 
@@ -18,7 +17,7 @@ module Instruction_Fetch_Stage(
 
     logic [31:0] PCF_preff;
 
-/*  MUX2to1 ProgramCounterMux(       (Utilizando modulos previos)
+/*  MUX2to1 ProgramCounterMux(       (Utilizando mux parametrizado)
 	.in0(PCPlus4F),
 	.in1(PCTargetE),
 	.out(PCF_preff),
@@ -45,9 +44,9 @@ module Instruction_Fetch_Stage(
 
 	logic [31:0] InstrF;
 
-	Instruction_Memory InstMem(								// Instruction Memory *Solo carcasa del módulo
+	Instruction_Memory InstrMem(							// Instruction Memory *Solo carcasa del módulo
 	.A(PCF_postff),
-	.RD(InstrF)												//ReadData
+	.RD(InstrF)												// ReadData
 	);
 
 endmodule
@@ -55,7 +54,7 @@ endmodule
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Instruction Memory 
-module Instruction_Memory #(parameter WordQuantity = 256)(	// Instruction Memory de 1 KiloByte de memoria (256*4)
+module Instruction_Memory #(parameter WordQuantity = 256, parameter BitSize = 8)(	// Instruction Memory de 1 KiloByte de memoria (256*4)
 	input logic [31:0] address,
 	output logic [31:0] instruction					
 
@@ -70,13 +69,13 @@ module Instruction_Memory #(parameter WordQuantity = 256)(	// Instruction Memory
         memory[4]  = 32'h00418293; // ADDI x5, x3, 4					//dirección 0x0000_0010 -> ... 0001_00|00
         memory[5]  = 32'h00520313; // ADDI x6, x4, 5					//dirección 0x0000_0014 -> ... 0001_01|00
 		
-        for (int i = 6; i < 256; i++) begin
+        for (int i = 6; i < WordQuantity; i++) begin
             memory[i] = 32'h00000000; 						// El resto del programa (resto de la memoria) se rellenará con NOPs
         end
     end	
 
     always_comb begin
-        instruction = memory[address[9:2]]; 				// address[9:2] entrega el valor que existe en esos 8 bits como un decimal para castear una posición del array memory
+        instruction = memory[address[BitSize+1:2]]; 		// address[Bitsize:2] entrega el valor que existe en los bits del 2 al Bitsize+1 como decimal para castear una posición del array memory
     end
 	
 endmodule
