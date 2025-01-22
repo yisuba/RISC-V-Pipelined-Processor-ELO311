@@ -1,95 +1,22 @@
-module Instruction_Decode_Stage(
-	input logic clk, rst
-	input logic [31:0] InstrD, PCD, PCPlus4D,
-	input logic [4:0] RdW, ResultW,						//Revisar bus de bits de ResultW
-	input logic RegWriteW,
-	output logic [4:0] RD1D, RD2D, Rs1D, Rs2D, RdD,
-	output logic [24:0] ExtImmD
-	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,		//Control Unit signals
-	output logic [1:0] ResultSrcD,
-	output logic [3:0] ALUControlD		//Modificado a [3:0] para adecuarse al RV32I
-);
 
+// Control_Unit
+////// Solo están relativamente bien definidas las instrucciones R-type
+///// FALTA perfeccionar cada una de las instrucciones
+/// RegWriteD se activa si es necesario escribir rd en RegFile
+/// MemWriteD se activa si es necesario escribir
+/// JumpD
+/// BranchD	se activa en caso de que la instrucción sea un condicional
+/// AluSrcD	define si ALU tomará el operando rs2 o del imm
+///	ResultSrcD
+/// ImmSrcD selecciona como extender el campo immediate
+/// ALUControlD define que operación tendrá que realizar la ALU
+////////////////////////////
 
-	Control_Unit CtrlUnit(				//instancia de ControlUnit
-	.InstrD(InstrD),
-	.RegWriteD(RegWriteD),
-	.ResultSrcD(ResultSrcD),
-	.MemWriteD(MemWriteD),
-	.JumpD(JumpD),
-	.BranchD(BranchD),
-	.ALUControlD(ALUControlD),
-	.AluSrcD(AluSrcD),
-	.ImmSrcD(ImmSrcD)
-	);
-
-
-	logic [4:0] A1, A2;
-	assign A1 = InstrD[19:15];
-	assign A2 = InstrD[24:20];
-	Register_File RegFile(				//instancia de RegisterFile
-	.clk(clk),
-	.rst(rst),
-	.WE3(RegWriteW),
-	.A1(A1),
-	.A2(A2),
-	.A3(RdW),
-	.WD3(ResultW),
-	.RD1D(RD1D),
-	.RD2D(RD2D)
-	);
-	
-	assign Rs1D = InstrD[19:15];		//Cables 
-	assign Rs2D = InstrD[24:20];
-	assign RdD = InstrD[11:7];
-	
-	
-	logic [24:0] Extend_in;
-	logic [1:0] ImmSrcD;
-	assign Extend_in = InstrD[31:7];
-	Extend ExtImm(						//instancia del Extend/Immediate
-	.ImmSrcD(ImmSrcD),
-	.Extend_in(Extend_in),
-	.ExtImmD(ExtImmD)
-	);
-	
-endmodule
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Register File *solo carcasa*
-module Register_File(
-	input logic clk, rst,  WE3,						//Recordar negar clk
-	input logic [4:0] A1, A2, A3,
-	input logic [4:0] WD3,							//Revisar bus de bits de WD3 ¿Cuantos bits podría o debería tener?
-	output logic [4:0] RD1D, RD2D
-);
-
-endmodule
-
-
-//Inmediado / Extend *solo carcasa*
-	module Extend(
-		input logic [24:0] Extend_in,
-		input logic [1:0] ImmSrcD,
-		output logic [24:0] ExtImmD
-	);
-
-endmodule
-
-
-
-
-//Unidad de control *solo carcasa*
 module Control_Unit(
 	input logic [31:0] InstrD,
-	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,
-	output logic [1:0] ResultSrcD, ImmSrcD,
-	output logic [2:0] ALUControlD
+	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,	
+	output logic [1:0] ResultSrcD, ImmSrcD,							
+	output logic [2:0] ALUControlD									
 );
 
 
@@ -169,18 +96,48 @@ module Control_Unit(
 
 	always_comb begin
 		case ({op, funct3, funct7})
-			{7'b011_0011, 3'b000, 7'b000_0000}:	ALUControlD = 4'b0000; 						//add		R-type
-			{7'b011_0011, 3'b000, 7'b010_0000}:	ALUControlD = 4'b0001;						//sub
-			{7'b011_0011, 3'b100, 7'b000_0000}:	ALUControlD = 4'b0010;						//xor
-			{7'b011_0011, 3'b110, 7'b000_0000}:	ALUControlD = 4'b0011;						//or
-			{7'b011_0011, 3'b111, 7'b000_0000}:	ALUControlD = 4'b0100;						//and
-			{7'b011_0011, 3'b001, 7'b000_0000}:	ALUControlD = 4'b0101;						//sll
-			{7'b011_0011, 3'b101, 7'b000_0000}:	ALUControlD = 4'b0110;						//srl
-			{7'b011_0011, 3'b101, 7'b010_0000}:	ALUControlD = 4'b0111;						//sra
-			{7'b011_0011, 3'b010, 7'b000_0000}:	ALUControlD = 4'b1000;						//slt
-			{7'b011_0011, 3'b011, 7'b000_0000}:	ALUControlD = 4'b1001;						//sltu
+			{7'b011_0011, 3'b000, 7'b000_0000}:	begin 										//add		R-type
+				ALUControlD = 4'b0000; 				
+				RegWriteD = 1'b1;  
+			end											
+			{7'b011_0011, 3'b000, 7'b010_0000}:	begin 										//sub		
+				ALUControlD = 4'b0001; 					
+				RegWriteD = 1'b1;  
+			end
+			{7'b011_0011, 3'b100, 7'b000_0000}:	begin 										//xor		
+				ALUControlD = 4'b0010; 					
+				RegWriteD = 1'b1;  
+			end
+			{7'b011_0011, 3'b110, 7'b000_0000}:	begin 										//or
+				ALUControlD = 4'b0011; 				
+				RegWriteD = 1'b1;  
+			end
+			{7'b011_0011, 3'b111, 7'b000_0000}:	begin 										//and
+				ALUControlD = 4'b0100; 					
+				RegWriteD = 1'b1;  
+			end
+			{7'b011_0011, 3'b001, 7'b000_0000}:	begin 										//sll
+				ALUControlD = 4'b0101; 					
+				RegWriteD = 1'b1;  
+			end						
+			{7'b011_0011, 3'b101, 7'b000_0000}:	begin 										//srl
+				ALUControlD = 4'b0110;	
+				RegWriteD = 1'b1;  
+			end
+			{7'b011_0011, 3'b101, 7'b010_0000}:	begin										//sra
+				ALUControlD = 4'b0111;		
+				RegWriteD = 1'b1;
+			end
+			{7'b011_0011, 3'b010, 7'b000_0000}:	begin										//slt
+				ALUControlD = 4'b1000;				
+				RegWriteD = 1'b1;
+			end			
+			{7'b011_0011, 3'b011, 7'b000_0000}:	begin										//sltu
+				ALUControlD = 4'b1001;			
+				RegWriteD = 1'b1;
+			end
 			
-			{7'b001_0011, 3'b000, 7'bxxx_xxxx}:												//addi		I-type (W/ no memory)
+			/*{7'b001_0011, 3'b000, 7'bxxx_xxxx}:												//addi		I-type (W/ no memory)
 			{7'b001_0011, 3'b100, 7'bxxx_xxxx}:												//xori		
 			{7'b001_0011, 3'b110, 7'bxxx_xxxx}:												//ori
 			{7'b001_0011, 3'b111, 7'bxxx_xxxx}:												//andi
@@ -216,8 +173,8 @@ module Control_Unit(
 		
 			{7'b111_0011, 3'b000, 7'bxxx_xxxx}:							//ecall		I-type  **
 			{7'b111_0011, 3'b000, 7'bxxx_xxxx}:							//ebreak			**
-
-			default: ALUControlD = 3'bxxx; // Undefined instruction
+*/
+			default:													// Undefined instruction
 		endcase
 	end
 
