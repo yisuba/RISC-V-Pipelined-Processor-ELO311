@@ -3,18 +3,19 @@
 `include "Extend.sv"
 
 
-// Instruction_Decode_Stage
+// Decode_Stage
 ////// Falta Control_Unit + Register_File + Extend
 ////// Falta realizar Testbench
 ////////////////////////////
 
-module Instruction_Decode_Stage(
+module Decode_Stage(
 	input logic clk, rst,
-	input logic [31:0] InstrD, PCD, PCPlus4D,
-	input logic [4:0] RdW, ResultW,						//Revisar bus de bits de ResultW
+	input logic [31:0] InstrD, ResultW,
+	inout logic [31:0] PCD, PCPlus4D,	
+	input logic [4:0] RdW,						
 	input logic RegWriteW,
 	output logic [4:0] RD1D, RD2D, Rs1D, Rs2D, RdD,
-	output logic [24:0] ExtImmD,
+	output logic [31:0] ExtImmD,
 	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,		//Control Unit signals
 	output logic [1:0] ResultSrcD,
 	output logic [3:0] ALUControlD		//Modificado a [3:0] para adecuarse al RV32I

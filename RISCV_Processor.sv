@@ -1,11 +1,19 @@
-`include "Instruction_Fetch_Stage.sv"
-`include "Instruction_Decode_Stage.sv"
+`include "Fetch_Stage.sv"
+`include "Decode_Stage.sv"
+`include "Execute_Stage.sv"
+`include "Memory_Stage.sv"
+`include "WriteBack_Stage.sv"
+
+// Procesador RISC-v
+////// Falta FF entre decode-execute, execute-memory, memory-writeback
+////// Falta instanciar stages execute, memory, writeback
+////////////////////////////
 
 module RISC_V_Processor(
     input logic clk, rst
 );
 
-    Instruction_Fetch_Stage IF(
+    Fetch_Stage Fetch(
         .clk(clk),
         .rst(rst),
         .PCSrcE(PCSrcE),
@@ -31,7 +39,7 @@ module RISC_V_Processor(
             end
     end
     
-    Instruction_Decode_Stage ID(
+    Decode_Stage Decode(
         .clk(clk),
         .rst(rst),
         .InstrD(InstrD),
@@ -68,6 +76,19 @@ module RISC_V_Processor(
             PCPlus4D <= PCPlus4F;
             end
     end*/
+	
+	Execute_Stage Execute(
+	
+	);
+	
+	Memory_Stage Memory(
+	
+	);
+	
+	WriteBack_Stage WriteBac(
+	
+	);
+	
  endmodule   
 
 /////////////////////////////////////////////////////////////////////////

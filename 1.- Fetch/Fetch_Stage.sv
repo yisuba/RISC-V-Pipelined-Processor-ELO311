@@ -1,12 +1,12 @@
 `timescale 1ns / 1ps
 `include "Instruction_Memory.sv"
 
-// Etapa de Fetch 
+// Fetch_Stage 
 ////// Falta un mejor entendimiento del Instruction Memory
 ////// Falta realizar Testbench
 ////////////////////////////
 
-module Instruction_Fetch_Stage(
+module Fetch_Stage(
     input logic clk, rst, 
 	input logic PCSrcE, StallF,
     input logic [31:0] PCTargetE,
@@ -47,8 +47,3 @@ module Instruction_Fetch_Stage(
 	);
 
 endmodule
-
-
-
-
-			
