@@ -12,6 +12,28 @@
 module RISC_V_Processor(
     input logic clk, rst
 );
+	logic PCSrcE, StallF, ALUSrcE;
+    logic [31:0] PCTargetE, PCPlus4F, PCF_postff, InstrF;
+    
+    logic RegWriteW, RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD;
+	logic [1:0] ResultSrcD;
+	logic [3:0] ALUControlD;
+	logic [4:0] RdW, Rs1D, Rs2D, RdD;
+	logic [31:0] InstrD, RD1D, RD2D, ResultW, PCD, PCPlus4D, ExtImmD;
+    
+	logic JumpE, BranchE, RegWriteE, MemWriteE;
+	logic [1:0] ResultSrcE, ForwardAE, ForwardBE;
+	logic [2:0] ALUControlE;				
+	logic [4:0] Rs1E, Rs2E, RdE;	
+	logic [31:0] PCE, ExtImmE, RD1E, RD2E, ALUResultM, PCPlus4E, ALUResultE, WriteDataE;
+
+	logic RegWriteM, MemWriteM;
+	logic [1:0] ResultSrcM;
+	logic [4:0] RdM;
+	logic [31:0] WriteDataM, ReadDataM, PCPlus4M;
+	
+	logic [1:0] ResultSrcW;
+	logic [31:0] ALUResultW, ReadDataW, PCPlus4W;
 
     Fetch_Stage Fetch(
         .clk(clk),
@@ -23,22 +45,21 @@ module RISC_V_Processor(
         .PCF_postff(PCF_postff),
         .InstrF(InstrF)
     );	
-    
-    logic [31:0] InstrD, PCD, PCPlus4D;
+	
     logic StallD;
-    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Instruction_Fetch
+    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Fetch_Stage
         if(rst) begin
             InstrD <= 32'b0;
             PCD <= 32'b0;
             PCPlus4D <= 32'b0;
-            end
+        end
         else if(!StallD) begin
             InstrD <= InstrF;
             PCD <= PCF_postff;
             PCPlus4D <= PCPlus4F;
-            end
+        end
     end
-    
+	
     Decode_Stage Decode(
         .clk(clk),
         .rst(rst),
@@ -62,40 +83,151 @@ module RISC_V_Processor(
         .ResultSrcD(ResultSrcD),
         .ALUControlD(ALUControlD)
     );
-   /* 
+
     logic FlushE;
-    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Instruction_Fetch
+    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Decode_Stage
         if(rst) begin
-            InstrD <= 32'b0;
-            PCD <= 32'b0;
-            PCPlus4D <= 32'b0;
-            end
-        else if(!StallD) begin
-            InstrD <= InstrF;
-            PCD <= PCF_postff;
-            PCPlus4D <= PCPlus4F;
-            end
-    end*/
-	
+            RegWriteE <= 1'b0;
+            ResultSrcE <= 2'b0;
+            MemWriteE <= 1'b0;
+			JumpE <= 1'b0;
+			BranchE <= 1'b0;
+			ALUControlE <= 3'b0;
+			ALUSrcE <= 1'b0;
+			RD1E <= 32'b0;
+			RD2E <= 32'b0;
+			PCE <= 32'b0;
+			Rs1E <= 5'b0;
+			Rs2E<= 5'b0;
+			RdE <= 5'b0;
+			ExtImmE <= 32'b0;
+			PCPlus4E <= 32'b0;
+        end
+        else if(FlushE) begin
+            RegWriteE <= 1'b0;
+            ResultSrcE <= 2'b0;
+            MemWriteE <= 1'b0;
+			JumpE <= 1'b0;
+			BranchE <= 1'b0;
+			ALUControlE <= 3'b0;
+			ALUSrcE <= 1'b0;
+			RD1E <= 32'b0;
+			RD2E <= 32'b0;
+			PCE <= 32'b0;
+			Rs1E <= 5'b0;
+			Rs2E<= 5'b0;
+			RdE <= 5'b0;
+			ExtImmE <= 32'b0;
+			PCPlus4E <= 32'b0;	
+        end
+		else begin
+			RegWriteE <= RegWriteD;
+			ResultSrcE <= ResultSrcD;
+			MemWriteE <= MemWriteD;
+			JumpE <= JumpD;
+			BranchE <= BranchD;
+			ALUControlE <= ALUControlD;
+			ALUSrcE <= AluSrcD;
+			RD1E <= RD1D;
+			RD2E <= RD2D;
+			PCE <= PCD;
+			Rs1E <= Rs1D;
+			Rs2E <= Rs2D;
+			RdE <= RdD;
+			ExtImmE <= ExtImmD;
+			PCPlus4E <= PCPlus4D;
+		end
+    end
+
 	Execute_Stage Execute(
-	
+	.JumpE(JumpE),
+	.BranchE(BranchE),
+	.ALUSrcE(ALUSrcE),
+	.ALUControlE(ALUControlE),
+	.PCE(PCE),
+	.ExtImmE(ExtImmE),
+	.RD1E(RD1E),
+	.RD2E(RD2E),
+	.Rs1E(Rs1E),
+	.Rs2E(Rs2E),
+	.ALUResultM(ALUResultM),
+	.ResultW(ResultW),
+	.ForwardAE(ForwardAE),
+	.ForwardBE(ForwardBE),
+	.RegWriteE(RegWriteE),
+	.MemWriteE(MemWriteE),
+	.ResultSrcE(ResultSrcE),
+	.RdE(RdE),
+	.PCPlus4E(PCPlus4E),
+	.ALUResultE(ALUResultE),
+	.WriteDataE(WriteDataE),
+	.PCTargetE(PCTargetE),
+	.PCSrcE(PCSrcE)
 	);
+	
+    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Execute_Stage
+        if(rst) begin
+            RegWriteM <= 1'b0;
+            ResultSrcM <= 2'b0;
+            MemWriteM <= 1'b0;
+			ALUResultM <= 32'b0;
+			WriteDataM <= 32'b0;
+			RdM <= 5'b0;
+			PCPlus4M <= 32'b0;
+        end
+        else begin
+            RegWriteM <= RegWriteE;
+            ResultSrcM <= ResultSrcE;
+            MemWriteM <= MemWriteE;
+			ALUResultM <= ALUResultE;
+			WriteDataM <= WriteDataE;
+			RdM <= RdE;
+			PCPlus4M <= PCPlus4E;
+        end
+    end
 	
 	Memory_Stage Memory(
-	
+	.clk(clk),
+	.rst(rst),
+	.RegWriteM(RegWriteM),
+	.ResultSrcM(ResultSrcM),
+	.MemWriteM(MemWriteM),
+	.ALUResultM(ALUResultM),
+	.WriteDataM(WriteDataM),
+	.ReadDataM(ReadDataM),
+	.RdM(RdM),
+	.PCPlus4M(PCPlus4M)
 	);
 	
-	WriteBack_Stage WriteBac(
+    always_ff @(posedge clk or posedge rst) begin			// FF de salida de la Memory_Stage
+        if(rst) begin
+            RegWriteW <= 1'b0;
+            ResultSrcW <= 2'b0;
+			ALUResultW <= 32'b0;
+			ReadDataW <= 32'b0;
+            RdW <= 5'b0;
+            PCPlus4W <= 32'b0;
+        end
+        else begin
+            RegWriteW <= RegWriteM;
+            ResultSrcW <= ResultSrcM;
+			ALUResultW <= ALUResultM;
+			ReadDataW <= ReadDataM;
+			RdW <= RdM;
+			PCPlus4W <= PCPlus4M;
+        end
+    end	
 	
+	WriteBack_Stage WriteBack(
+	.clk(clk),
+	.rst(rst),
+	.RegWriteW(RegWriteW),
+	.ResultSrcW(ResultSrcW),
+	.ALUResultW(ALUResultW),
+	.ReadDataW(ReadDataW),
+	.PCPlus4W(PCPlus4W),
+	.RdW(RdW),
+	.ResultW(ResultW)
 	);
 	
  endmodule   
-
-/////////////////////////////////////////////////////////////////////////
-	/*input logic clk, rst,
-    input logic PCSrcE,
-    input logic [31:0] PCTargetE,
-    inout logic [31:0] PCPlus4F,
-    output logic [31:0] PCF_postff*/
-	
-

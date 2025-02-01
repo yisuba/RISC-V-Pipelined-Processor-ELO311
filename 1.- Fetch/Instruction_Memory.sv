@@ -1,4 +1,9 @@
-// Instruction Memory 
+
+// Instruction_Memory 
+////// 
+////// Falta realizar Testbench
+////////////////////////////
+
 module Instruction_Memory #(parameter WordQuantity = 256, parameter BitSize = 8)(	// Instruction Memory de 1 KiloByte de memoria (256*4)
 	input logic [31:0] address,				                // Address
 	output logic [31:0] instruction				     		// ReadData	/ instruction		
@@ -15,7 +20,7 @@ module Instruction_Memory #(parameter WordQuantity = 256, parameter BitSize = 8)
         memory[5]  = 32'h00520313; // ADDI x6, x4, 5					//dirección 0x0000_0014 -> ... 0001_01|00
 		
         for (int i = 6; i < WordQuantity; i++) begin
-            memory[i] = 32'h00000000; 						// El resto del programa (resto de la memoria) se rellenará con NOPs
+            memory[i] = 32'b0; 											// El resto del programa (resto de la memoria) se rellenará con NOPs (En caso de agregar instr, cambiar i)
         end
     end	
 

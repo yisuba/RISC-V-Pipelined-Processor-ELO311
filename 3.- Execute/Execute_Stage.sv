@@ -7,13 +7,16 @@
 ////////////////////////////
 
 module Execute_Stage(
-	inout logic RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE,
-	inout logic [1:0] ResultSrcE,
-	input logic [2:0] ALUControlE,						//Fin señales de control
-	input logic [4:0] RD1E, RD2E, Rs1E, Rs2E, RdE,
-	input logic [31:0] PCE, ExtImmE, PCPlus4E,		
-	output logic [31:0] ALUResultE, WriteDataE,			//Fin señales de y hacia FF
+	input logic JumpE, BranchE, ALUSrcE,
+	input logic [1:0] ForwardAE, ForwardBE,
+	input logic [3:0] ALUControlE,						
+	input logic [31:0] PCE, ExtImmE, RD1E, RD2E,
 	input logic [31:0] ALUResultM, ResultW,
+	inout logic RegWriteE, MemWriteE,
+	inout logic [1:0] ResultSrcE,
+	inout logic [4:0] Rs1E, Rs2E, RdE,
+	inout logic [31:0] PCPlus4E,		
+	output logic [31:0] ALUResultE, WriteDataE,			
 	output logic [31:0] PCTargetE,
 	output logic PCSrcE
 );
@@ -25,6 +28,7 @@ module Execute_Stage(
 			2'b01: SrcAE = ResultW;
 			2'b10: SrcAE = ALUResultM;
 			default: SrcAE = 32'b0;
+		endcase 
 	end
 
 	always_comb begin
@@ -32,7 +36,8 @@ module Execute_Stage(
 			2'b00: WriteDataE = RD2E;
 			2'b01: WriteDataE = ResultW;
 			2'b10: WriteDataE = ALUResultM;
-		default: 32'b0;
+		    default:  WriteDataE = 32'b0;
+		endcase
 	end
 	
 	logic [31:0] SrcBE;
@@ -40,19 +45,19 @@ module Execute_Stage(
 		case(ALUSrcE)
 			1'b0: SrcBE = WriteDataE;
 			1'b1: SrcBE = ExtImmE;
+		endcase 
 	end
 	
+	logic ZeroE;
 	ALU_modded ALU(										// instancia ALU
 		.A(SrcAE),
 		.B(SrcBE),
 		.OpCode(ALUControlE),
 		.Result(ALUResultE),
-		.Zero(ZeroE),
+		.Zero(ZeroE)
 	);
 	
-	logic aux;
-	assign aux = ZeroE && BranchE; 						//verificar si se puede utilizar "and" o si es solo un &
-	assign PCSrcE = aux || JumpE;
+	assign PCSrcE = (ZeroE && BranchE) || JumpE;
 	
 	assign PCTargetE = PCE + ExtImmE;	 				//verificar Adder
 	

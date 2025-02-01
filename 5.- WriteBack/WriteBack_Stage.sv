@@ -6,7 +6,7 @@
 ////////////////////////////
 
 module WriteBack_Stage(
-	input logic clk, rst						//verificar si es necesario el rst
+	input logic clk, rst,						//verificar si es necesario el rst
 	inout logic RegWriteW,
 	input logic [1:0] ResultSrcW,
 	input logic [31:0] ALUResultW, ReadDataW, PCPlus4W,
@@ -18,8 +18,8 @@ module WriteBack_Stage(
 		case(ResultSrcW)
 			2'b00: ResultW = ALUResultW;
 			2'b01: ResultW =  ReadDataW;
-			2'b10: ResultW = PCPlus4W
-			default: 32'b0;
+			2'b10: ResultW = PCPlus4W;
+			default: ResultW = 32'b0;
 		endcase
 	end
 	

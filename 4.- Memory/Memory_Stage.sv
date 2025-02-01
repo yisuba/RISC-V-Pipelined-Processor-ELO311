@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`include "Data_Memomy.sv"
+`include "Data_Memory.sv"
 
 // Etapa de Memory 
 ////// Falta Realizar Data_Memomy
@@ -18,13 +18,13 @@ module Memory_Stage(
 	inout logic [31:0] PCPlus4M
 );
 
-	Data_Memomy DataMem(
+	Data_Memory DataMem(
 		.clk(clk),
 		.rst(rst),									//verificar si es necesario el rst
 		.WE(MemWriteM),
 		.WD(WriteDataM),
 		.A(ALUResultM),
-		.RD(ReadDataM),
+		.RD(ReadDataM)
 	);
 	
 endmodule

@@ -10,13 +10,11 @@ module Fetch_Stage(
     input logic clk, rst, 
 	input logic PCSrcE, StallF,
     input logic [31:0] PCTargetE,
-    inout logic [31:0] PCPlus4F,
+    inout logic [31:0] PCPlus4F,					//verificar si es necesariamente inout
     output logic [31:0] PCF_postff, InstrF
 );
 
-    logic [31:0] PCF_preff;
-
-/*  MUX2to1 ProgramCounterMux(       (Utilizando mux parametrizado)
+/*  MUX2to1 ProgramCounterMux(       (Utilizando mux parametrizado (relativamente innecesario de momento))
 	.in0(PCPlus4F),
 	.in1(PCTargetE),
 	.out(PCF_preff),
@@ -24,24 +22,24 @@ module Fetch_Stage(
 	);
 	*/
 	
-    always_comb begin										//	Mux Previo al FF del Program Counter
-        case(PCSrcE)
+	logic [31:0] PCF_preff;
+    always_comb begin								//	Mux Previo al FF del Program Counter
+        case(PCSrcE)								// Podría utilizarse "assign PCF_preff = PCSrcE ? PCTargetE : PCPlus4F;" para simplificar
             1'b0: PCF_preff = PCPlus4F;
             1'b1: PCF_preff = PCTargetE;
         endcase 
-    //También puede utilizarse "assign PCF_preff = PCSrcE ? PCTargetE : PCPlus4F;" para simplificar el always_comb
     end
 
-    always_ff @(posedge clk or posedge rst) begin  			// FF del Program Counter
+    always_ff @(posedge clk or posedge rst) begin  	// FF del PC
         if(rst)
             PCF_postff <= 32'b0;
 		else if(!StallF)
 			PCF_postff <= PCF_preff;
     end
 
-	assign PCPlus4F = PCF_postff + 32'd4;                	// Adder para el PC+4
+	assign PCPlus4F = PCF_postff + 32'd4;           // Adder para el PC+4
 
-	Instruction_Memory InstrMem(							// Instruction Memory *
+	Instruction_Memory InstrMem(					// Instruction Memory *
 	.address(PCF_postff),
 	.instruction(InstrF)						
 	);

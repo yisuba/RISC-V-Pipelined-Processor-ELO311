@@ -27,7 +27,7 @@ module Control_Unit(
 	assign funct7 = InstrD[31:25];
 
 //PROTOTIPO MIO (POCO CLARO)
-	case (op) 
+/*	case (op) 
 		7'b011_0011: begin							// R-type
 			RegWriteD = 1'b1;
 			ResultSrcD = 2'b00;
@@ -95,15 +95,23 @@ module Control_Unit(
 			ImmSrcD = 3'b000;
 			
 			case(funct3) 							//Qué instrucción load?
-				3'b000: 
-				3'b001:
-				3'b010:
-				3'b100:
-				3'b101:
+				3'b000: ;
+				3'b001: ; 
+				3'b010: ;
+				3'b100: ;
+				3'b101: ;
 			endcase
 		end
 		
 		7'b010_0011: begin							// S-type 						***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b001;
+			
 			case(funct3) 							//Qué instrucción store? 
 				3'b000: //sb
 				3'b001: //sh
@@ -112,6 +120,14 @@ module Control_Unit(
 		end
 		
 		7'b110_0011: begin							// B-type						***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b010;
+			
 			case(funct3)							//Qué instrucción branch? 		
 				3'b000: // beq
 				3'b001: // bne
@@ -123,24 +139,59 @@ module Control_Unit(
 		end
 		
 		7'b110_1111: begin							// J-type (jal)					***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b100;
 		
 		end
 		
 		7'b110_0111: begin							// I-type (jalr) 				***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b000;
+			
 			if(funct3)
 				
 		end
 		
 		7'b011_0111: begin							// U-type (lui) 				***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b011;
 		
 		end
 		
 		7'b001_0111: begin							// U-type (auipc)				***
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b011;
 		
 		end
 		
 		7'b111_0011: begin							// I-type (ecall / eberak)		***Transfer control to OS/debugger
-		
+			RegWriteD = 1'b1;
+			ResultSrcD = 2'b00;
+			MemWriteD = 1'b0;
+			JumpD = 1'b0;
+			BranchD = 1'b0;
+			AluSrcD = 1'b1;
+			ImmSrcD = 3'b000;
 		end
 		
 		default: 									//default

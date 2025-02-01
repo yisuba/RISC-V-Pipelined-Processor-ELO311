@@ -1,6 +1,11 @@
 `timescale 1ns / 1ps
 
-module ALU #(parameter M = 32)(
+// ALU modificada
+////// Modificada en base a una ALU generica + chatgpgt
+////// Revisar instrucciones sll, srl, sra, slt, sltu y su funcionamiento
+////////////////////////////
+
+module ALU_modded #(parameter M = 32)(
     input logic [M-1:0] A, B,          // Operando A (RD1E/otros), Operando B (RD2E/otros or ExtImmE)
     input logic [3:0] OpCode,       
     output logic [M-1:0] Result,    
