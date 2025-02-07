@@ -1,5 +1,4 @@
 `timescale 1ns / 1ps
-`include "ALU_modded.sv"
 
 // Etapa de Execute 
 ////// Falta verificar Adder

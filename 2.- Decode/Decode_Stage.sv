@@ -1,6 +1,3 @@
-`include "Control_Unit.sv"
-`include "Register_File.sv"
-`include "Extend.sv"
 
 // Decode_Stage
 ////// Falta Control_Unit + Register_File + Extend
