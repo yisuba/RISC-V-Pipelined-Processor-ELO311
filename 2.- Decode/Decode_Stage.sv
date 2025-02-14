@@ -1,6 +1,3 @@
-`include "Control_Unit.sv"
-`include "Register_File.sv"
-`include "Extend.sv"
 
 // Decode_Stage
 ////// Falta Terminar Control_Unit
