@@ -1,26 +1,36 @@
 
 // Register_File
-////// Solo carcasa, falta funcionamiento general
+////// Falta checkear si es necesario el posedge (comparar)
 ////////////////////////////
 
 module Register_File(
-	input logic clk, rst,  WE3,						//Recordar negar clk
-	input logic [4:0] A1, A2, A3,
-	input logic [31:0] WD3,						
-	output logic [31:0] RD1, RD2
+	input logic clk, rst,  WriteEnable,		// Recordar negar clk, WE3
+	input logic [4:0] Register1, Register2, RegisterDestination,  // A1, A2, A3
+	input logic [31:0] WriteData,			// WD3		
+	output logic [31:0] RegisterData1, RegisterData2	// RD1, RD2
 );
 
-    logic [31:0] registers [31:0];					// Declaración de array de 31 registros de 31 bits
+    logic [31:0] Register [31:0];					// Declaración de array de 31 registros de 31 bits
+    assign Register[0] = 32'h0;
 
     always_ff @(negedge clk or posedge rst) begin	// Inicialización de register_file
         if (rst) 
             for (int i = 1; i < 32; i++)            // Todos los registros = 0 (excepto 0x0(zero))
-                registers[i] <= 32'b0;				
-        else if (WE3 && A3 != 5'b00000)
-            registers[A3] <= WD3; 					// ResultW se escribe en el registro de destino RdW	
+                Register[i] <= 32'b0;	
+				
+        else if (WriteEnable && RegisterDestination != 5'b0)
+            Register[RegisterDestination] <= WriteData; 					// ResultW se escribe en el registro de destino RdW	
     end
 
-    assign RD1 = (A1 == 5'b00000) ? 32'b0 : registers[A1];	//asignación de registros (posiblemente operandos) para ser utilizados luego 
-    assign RD2 = (A2 == 5'b00000) ? 32'b0 : registers[A2];
+    assign RegisterData1 = (Register1 == 5'b0) ? 32'b0 : Register[Register1];	//asignación de registros (posiblemente operandos) para ser utilizados luego 
+    assign RegisterData2 = (Register2 == 5'b0) ? 32'b0 : Register[Register2];
 
 endmodule
+/* 
+	llegan los registros 1 y 2 de 5 bits c/u y si WE3==1, se escriben los datos que existen 
+	en WD3 en la dirección dada por Register[RegisterDestination], significando esto
+	que RegisterDestination entregará la posición en la que se deberá escribir el dato.
+	Dato que tedrá 32 bits.
+	Esto significaría que solo se pueden almacenar datos en 31 registros (sin el x0).
+	Aparentemente esto significa que los registros son Word Addressable?
+*/

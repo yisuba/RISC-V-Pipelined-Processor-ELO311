@@ -1,5 +1,4 @@
 `timescale 1ns / 1ps
-`include "Instruction_Memory.sv"
 
 // Fetch_Stage 
 ////// Falta un mejor entendimiento del Instruction Memory
@@ -10,7 +9,7 @@ module Fetch_Stage(
     input logic clk, rst, 
 	input logic PCSrcE, StallF,
     input logic [31:0] PCTargetE,
-    inout logic [31:0] PCPlus4F,					//verificar si es necesariamente inout
+    output logic [31:0] PCPlus4F,					//verificar si es necesariamente inout
     output logic [31:0] PCF_postff, InstrF
 );
 
@@ -40,8 +39,8 @@ module Fetch_Stage(
 	assign PCPlus4F = PCF_postff + 32'd4;           // Adder para el PC+4
 
 	Instruction_Memory InstrMem(					// Instruction Memory *
-	.address(PCF_postff),
-	.instruction(InstrF)						
+	.Address(PCF_postff),
+	.Instruction(InstrF)						
 	);
 
 endmodule

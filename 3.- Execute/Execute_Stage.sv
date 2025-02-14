@@ -3,7 +3,7 @@
 
 // Etapa de Execute 
 ////// Falta verificar Adder
-////// Falta integrar y entender las se√±ales de Hazard Unit, actualmente solo est√°n declaradas
+////// Falta integrar y entender las seÒales de Hazard Unit, actualmente solo est·n declaradas
 ////////////////////////////
 
 module Execute_Stage(
@@ -12,10 +12,10 @@ module Execute_Stage(
 	input logic [3:0] ALUControlE,						
 	input logic [31:0] PCE, ExtImmE, RD1E, RD2E,
 	input logic [31:0] ALUResultM, ResultW,
-	inout logic RegWriteE, MemWriteE,
-	inout logic [1:0] ResultSrcE,
-	inout logic [4:0] Rs1E, Rs2E, RdE,
-	inout logic [31:0] PCPlus4E,		
+	input logic RegWriteE, MemWriteE,
+	input logic [1:0] ResultSrcE,
+	input logic [4:0] Rs1E, Rs2E, RdE,
+	input logic [31:0] PCPlus4E,		
 	output logic [31:0] ALUResultE, WriteDataE,			
 	output logic [31:0] PCTargetE,
 	output logic PCSrcE
@@ -58,7 +58,6 @@ module Execute_Stage(
 	);
 	
 	assign PCSrcE = (ZeroE && BranchE) || JumpE;
-	
 	assign PCTargetE = PCE + ExtImmE;	 				//verificar Adder
 	
 endmodule

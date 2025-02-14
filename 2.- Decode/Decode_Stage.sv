@@ -3,14 +3,13 @@
 `include "Extend.sv"
 
 // Decode_Stage
-////// Falta Control_Unit + Register_File + Extend
-////// Falta realizar Testbench
+////// Falta Terminar Control_Unit
 ////////////////////////////
 
 module Decode_Stage(
 	input logic clk, rst,
-	input logic [31:0] InstrD, ResultW,
-	inout logic [31:0] PCD, PCPlus4D,	
+	input logic [31:0] InstrD, ResultW, PCD, PCPlus4D,	
+	//input logic [31:0] PCD, PCPlus4D,	
 	input logic [4:0] RdW,						
 	input logic RegWriteW,
 	output logic [4:0] Rs1D, Rs2D, RdD,
@@ -40,13 +39,13 @@ module Decode_Stage(
 	Register_File RegFile(				// instancia de RegisterFile
 	.clk(clk),
 	.rst(rst),							// verificar si es necesario el rst
-	.WE3(RegWriteW),
-	.A1(A1),
-	.A2(A2),
-	.A3(RdW),
-	.WD3(ResultW),
-	.RD1(RD1D),
-	.RD2(RD2D)
+	.WriteEnable(RegWriteW),
+	.Register1(A1),
+	.Register2(A2),
+	.RegisterDestination(RdW),
+	.WriteData(ResultW),
+	.RegisterData1(RD1D),
+	.RegisterData2(RD2D)
 	);
 	
 	assign Rs1D = InstrD[19:15];		//Cables 
