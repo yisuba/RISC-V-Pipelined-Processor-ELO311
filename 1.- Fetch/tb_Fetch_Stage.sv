@@ -33,27 +33,27 @@ module tb_Fetch_Stage;
         
         #10; //10ns - negedge
         rst = 0;  
-		if (PCF_postff == 32'h0000_0000) $display("PC inicializado correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+		if (PCF_postff == 32'h0000_0000) $display("1.- PC inicializado correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
         
 		#10; //20ns
-        if (PCF_postff == 32'h0000_0004) $display("PC avanza +4 correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+        if (PCF_postff == 32'h0000_0004) $display("2.- PC avanza +4 correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
        
 	   #10; //30ns
-        if (PCF_postff == 32'h00000008) $display("PC sigue avanzando correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+        if (PCF_postff == 32'h00000008) $display("3.- PC sigue avanzando correctamente. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
         StallF = 1;
 		
         #10; //40ns
-        if (PCF_postff == 32'h00000008) $display("Stall mantiene el PC. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+        if (PCF_postff == 32'h00000008) $display("4.- Stall mantiene el PC. Counter: %h. Instruccion: %h", PCF_postff, InstrF);
         StallF = 0;
         PCSrcE = 1;
         PCTargetE = 32'h00000020;  // Caso en que salta a 0x20 y MUX elige input de Execute
         
 		#10; //50ns
-        if (PCF_postff == 32'h00000020) $display("PC salta correctamente (esperando 0x20). Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+        if (PCF_postff == 32'h00000020) $display("5.- PC salta correctamente (esperando 0x20). Counter: %h. Instruccion: %h", PCF_postff, InstrF);
         PCSrcE = 0;	//MUX vuelve a elegir desde PC+4
         
 		#10; //60ns
-        if (PCF_postff == 32'h00000024) $display("PC avanza +4 correctamente despues del salto (esperado 0x24). Counter: %h. Instruccion: %h", PCF_postff, InstrF);
+        if (PCF_postff == 32'h00000024) $display("6.- PC avanza +4 correctamente despues del salto (esperado 0x24). Counter: %h. Instruccion: %h", PCF_postff, InstrF);
         $finish;
     end	
 endmodule

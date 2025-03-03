@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 
 // Data_Memory
 ////// Checkear que la lectura sea o no asincrona, ¿difiere lo lógico de lo teorico? Pareciera ser que se escribe en el posedge según imagen de microarquitectura. Revisar
@@ -17,13 +18,18 @@ module Data_Memory #(parameter WordQuantity = 256, parameter BitSize = 8)(
 
     always_ff @(negedge clk or posedge rst) begin		
         if (rst) 
-			for (int i = 0; i < WordQuantity; i++)		// Inicialización
+			for (int i = 0; i < WordQuantity; i++)		   // Inicializacion
 				Memory[i] <= 32'b0;
 				
-		else if (WriteEnable) begin
-            Memory[Address[BitSize+1:2]] <= WriteData; 		// Escritura. Se usan los bits [9:2] para evadir el offset
-        end
+		else if (WriteEnable)                             // Escritura. Se usan los bits [9:2] para evadir el offset
+            Memory[Address[BitSize+1:2]] <= WriteData;
     end
-
-    assign ReadData = (!WriteEnable) ? Memory[Address[BitSize+1:2]] : 32'b0; // Combinacional / Asincrono ...
+    
+    always_comb begin
+        if (WriteEnable == 0)                             // Lectura. Asincronica
+            ReadData = Memory[Address[BitSize+1:2]];
+        else
+            ReadData = 32'bx;
+    end      
+    
 endmodule

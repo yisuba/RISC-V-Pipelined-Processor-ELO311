@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_RISCV_Processor_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_RISCV_Processor" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="14.680 ns"></ZoomStartTime>
+      <ZoomEndTime time="51.065 ns"></ZoomEndTime>
+      <Cursor1Time time="40.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="225"></NameColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject fp_name="/tb_RISCV_Processor/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="group3" type="group">
+      <obj_property name="label">Fetch_Stage</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/PCSrcE" type="logic">
+         <obj_property name="ElementShortName">PCSrcE</obj_property>
+         <obj_property name="ObjectShortName">PCSrcE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/StallF" type="logic">
+         <obj_property name="ElementShortName">StallF</obj_property>
+         <obj_property name="ObjectShortName">StallF</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/PCTargetE" type="array">
+         <obj_property name="ElementShortName">PCTargetE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCTargetE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/PCPlus4F" type="array">
+         <obj_property name="ElementShortName">PCPlus4F[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4F[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/PCF_postff" type="array">
+         <obj_property name="ElementShortName">PCF_postff[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCF_postff[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/PCF_preff" type="array">
+         <obj_property name="ElementShortName">PCF_preff[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCF_preff[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group11" type="group">
+      <obj_property name="label">Decode_Stage</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/ResultW" type="array">
+         <obj_property name="ElementShortName">ResultW[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultW[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/PCD" type="array">
+         <obj_property name="ElementShortName">PCD[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCD[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/PCPlus4D" type="array">
+         <obj_property name="ElementShortName">PCPlus4D[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4D[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RdW" type="array">
+         <obj_property name="ElementShortName">RdW[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdW[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegWriteW" type="logic">
+         <obj_property name="ElementShortName">RegWriteW</obj_property>
+         <obj_property name="ObjectShortName">RegWriteW</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/Rs1D" type="array">
+         <obj_property name="ElementShortName">Rs1D[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs1D[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/Rs2D" type="array">
+         <obj_property name="ElementShortName">Rs2D[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs2D[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RdD" type="array">
+         <obj_property name="ElementShortName">RdD[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdD[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/ExtImmD" type="array">
+         <obj_property name="ElementShortName">ExtImmD[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ExtImmD[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegWriteD" type="logic">
+         <obj_property name="ElementShortName">RegWriteD</obj_property>
+         <obj_property name="ObjectShortName">RegWriteD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/MemWriteD" type="logic">
+         <obj_property name="ElementShortName">MemWriteD</obj_property>
+         <obj_property name="ObjectShortName">MemWriteD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/JumpD" type="logic">
+         <obj_property name="ElementShortName">JumpD</obj_property>
+         <obj_property name="ObjectShortName">JumpD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/BranchD" type="logic">
+         <obj_property name="ElementShortName">BranchD</obj_property>
+         <obj_property name="ObjectShortName">BranchD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/AluSrcD" type="logic">
+         <obj_property name="ElementShortName">AluSrcD</obj_property>
+         <obj_property name="ObjectShortName">AluSrcD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/JalrD" type="logic">
+         <obj_property name="ElementShortName">JalrD</obj_property>
+         <obj_property name="ObjectShortName">JalrD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/ResultSrcD" type="array">
+         <obj_property name="ElementShortName">ResultSrcD[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultSrcD[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/StoreTypeD" type="array">
+         <obj_property name="ElementShortName">StoreTypeD[1:0]</obj_property>
+         <obj_property name="ObjectShortName">StoreTypeD[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/LoadTypeD" type="array">
+         <obj_property name="ElementShortName">LoadTypeD[2:0]</obj_property>
+         <obj_property name="ObjectShortName">LoadTypeD[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/BranchTypeD" type="array">
+         <obj_property name="ElementShortName">BranchTypeD[2:0]</obj_property>
+         <obj_property name="ObjectShortName">BranchTypeD[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/ALUControlD" type="array">
+         <obj_property name="ElementShortName">ALUControlD[3:0]</obj_property>
+         <obj_property name="ObjectShortName">ALUControlD[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/ImmSrcD" type="array">
+         <obj_property name="ElementShortName">ImmSrcD[2:0]</obj_property>
+         <obj_property name="ObjectShortName">ImmSrcD[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/funct3" type="array">
+         <obj_property name="ElementShortName">funct3[2:0]</obj_property>
+         <obj_property name="ObjectShortName">funct3[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/A1" type="array">
+         <obj_property name="ElementShortName">A1[4:0]</obj_property>
+         <obj_property name="ObjectShortName">A1[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/A2" type="array">
+         <obj_property name="ElementShortName">A2[4:0]</obj_property>
+         <obj_property name="ObjectShortName">A2[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/opcode" type="array">
+         <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+         <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/funct7" type="array">
+         <obj_property name="ElementShortName">funct7[6:0]</obj_property>
+         <obj_property name="ObjectShortName">funct7[6:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers" type="array">
+         <obj_property name="ElementShortName">Registers[31:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">Registers[31:0][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group41" type="group">
+      <obj_property name="label">Execute_Stage</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/JumpE" type="logic">
+         <obj_property name="ElementShortName">JumpE</obj_property>
+         <obj_property name="ObjectShortName">JumpE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/BranchE" type="logic">
+         <obj_property name="ElementShortName">BranchE</obj_property>
+         <obj_property name="ObjectShortName">BranchE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ALUSrcE" type="logic">
+         <obj_property name="ElementShortName">ALUSrcE</obj_property>
+         <obj_property name="ObjectShortName">ALUSrcE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/JalrE" type="logic">
+         <obj_property name="ElementShortName">JalrE</obj_property>
+         <obj_property name="ObjectShortName">JalrE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ForwardAE" type="array">
+         <obj_property name="ElementShortName">ForwardAE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ForwardAE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ForwardBE" type="array">
+         <obj_property name="ElementShortName">ForwardBE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ForwardBE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ALUControlE" type="array">
+         <obj_property name="ElementShortName">ALUControlE[3:0]</obj_property>
+         <obj_property name="ObjectShortName">ALUControlE[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/PCE" type="array">
+         <obj_property name="ElementShortName">PCE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ExtImmE" type="array">
+         <obj_property name="ElementShortName">ExtImmE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ExtImmE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ALUResultM" type="array">
+         <obj_property name="ElementShortName">ALUResultM[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ALUResultM[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ResultW" type="array">
+         <obj_property name="ElementShortName">ResultW[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultW[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/RegWriteE" type="logic">
+         <obj_property name="ElementShortName">RegWriteE</obj_property>
+         <obj_property name="ObjectShortName">RegWriteE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/MemWriteE" type="logic">
+         <obj_property name="ElementShortName">MemWriteE</obj_property>
+         <obj_property name="ObjectShortName">MemWriteE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ResultSrcE" type="array">
+         <obj_property name="ElementShortName">ResultSrcE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultSrcE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/StoreTypeE" type="array">
+         <obj_property name="ElementShortName">StoreTypeE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">StoreTypeE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/LoadTypeE" type="array">
+         <obj_property name="ElementShortName">LoadTypeE[2:0]</obj_property>
+         <obj_property name="ObjectShortName">LoadTypeE[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/BranchTypeE" type="array">
+         <obj_property name="ElementShortName">BranchTypeE[2:0]</obj_property>
+         <obj_property name="ObjectShortName">BranchTypeE[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/Rs1E" type="array">
+         <obj_property name="ElementShortName">Rs1E[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs1E[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/Rs2E" type="array">
+         <obj_property name="ElementShortName">Rs2E[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs2E[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/RdE" type="array">
+         <obj_property name="ElementShortName">RdE[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdE[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/PCPlus4E" type="array">
+         <obj_property name="ElementShortName">PCPlus4E[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4E[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/WriteDataE" type="array">
+         <obj_property name="ElementShortName">WriteDataE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WriteDataE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/PCTargetE" type="array">
+         <obj_property name="ElementShortName">PCTargetE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCTargetE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/PCSrcE" type="logic">
+         <obj_property name="ElementShortName">PCSrcE</obj_property>
+         <obj_property name="ObjectShortName">PCSrcE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/BranchTakenE" type="logic">
+         <obj_property name="ElementShortName">BranchTakenE</obj_property>
+         <obj_property name="ObjectShortName">BranchTakenE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/SrcAE" type="array">
+         <obj_property name="ElementShortName">SrcAE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SrcAE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/SrcBE" type="array">
+         <obj_property name="ElementShortName">SrcBE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SrcBE[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/SrcAdderE" type="array">
+         <obj_property name="ElementShortName">SrcAdderE[31:0]</obj_property>
+         <obj_property name="ObjectShortName">SrcAdderE[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group73" type="group">
+      <obj_property name="label">Memory_Stage</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/RegWriteM" type="logic">
+         <obj_property name="ElementShortName">RegWriteM</obj_property>
+         <obj_property name="ObjectShortName">RegWriteM</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/MemWriteM" type="logic">
+         <obj_property name="ElementShortName">MemWriteM</obj_property>
+         <obj_property name="ObjectShortName">MemWriteM</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/ResultSrcM" type="array">
+         <obj_property name="ElementShortName">ResultSrcM[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultSrcM[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/StoreTypeM" type="array">
+         <obj_property name="ElementShortName">StoreTypeM[1:0]</obj_property>
+         <obj_property name="ObjectShortName">StoreTypeM[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/LoadTypeM" type="array">
+         <obj_property name="ElementShortName">LoadTypeM[2:0]</obj_property>
+         <obj_property name="ObjectShortName">LoadTypeM[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/RdM" type="array">
+         <obj_property name="ElementShortName">RdM[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdM[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/WriteDataM" type="array">
+         <obj_property name="ElementShortName">WriteDataM[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WriteDataM[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/PCPlus4M" type="array">
+         <obj_property name="ElementShortName">PCPlus4M[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4M[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/ReadDataM" type="array">
+         <obj_property name="ElementShortName">ReadDataM[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ReadDataM[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/WriteDataM_processed" type="array">
+         <obj_property name="ElementShortName">WriteDataM_processed[31:0]</obj_property>
+         <obj_property name="ObjectShortName">WriteDataM_processed[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group85" type="group">
+      <obj_property name="label">WriteBack_Stage</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/RegWriteW" type="logic">
+         <obj_property name="ElementShortName">RegWriteW</obj_property>
+         <obj_property name="ObjectShortName">RegWriteW</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/ResultSrcW" type="array">
+         <obj_property name="ElementShortName">ResultSrcW[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultSrcW[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/LoadTypeW" type="array">
+         <obj_property name="ElementShortName">LoadTypeW[2:0]</obj_property>
+         <obj_property name="ObjectShortName">LoadTypeW[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/RdW" type="array">
+         <obj_property name="ElementShortName">RdW[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdW[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/ALUResultW" type="array">
+         <obj_property name="ElementShortName">ALUResultW[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ALUResultW[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/ReadDataW" type="array">
+         <obj_property name="ElementShortName">ReadDataW[31:0]</obj_property>
+         <obj_property name="ObjectShortName">ReadDataW[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/PCPlus4W" type="array">
+         <obj_property name="ElementShortName">PCPlus4W[31:0]</obj_property>
+         <obj_property name="ObjectShortName">PCPlus4W[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group94" type="group">
+      <obj_property name="label">Hazard_Unit</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/PCSrcE" type="logic">
+         <obj_property name="ElementShortName">PCSrcE</obj_property>
+         <obj_property name="ObjectShortName">PCSrcE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/RegWriteM" type="logic">
+         <obj_property name="ElementShortName">RegWriteM</obj_property>
+         <obj_property name="ObjectShortName">RegWriteM</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/RegWriteW" type="logic">
+         <obj_property name="ElementShortName">RegWriteW</obj_property>
+         <obj_property name="ObjectShortName">RegWriteW</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/ResultSrcE" type="array">
+         <obj_property name="ElementShortName">ResultSrcE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ResultSrcE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/Rs1D" type="array">
+         <obj_property name="ElementShortName">Rs1D[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs1D[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/Rs2D" type="array">
+         <obj_property name="ElementShortName">Rs2D[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs2D[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/Rs1E" type="array">
+         <obj_property name="ElementShortName">Rs1E[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs1E[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/Rs2E" type="array">
+         <obj_property name="ElementShortName">Rs2E[4:0]</obj_property>
+         <obj_property name="ObjectShortName">Rs2E[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/RdE" type="array">
+         <obj_property name="ElementShortName">RdE[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdE[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/RdM" type="array">
+         <obj_property name="ElementShortName">RdM[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdM[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/RdW" type="array">
+         <obj_property name="ElementShortName">RdW[4:0]</obj_property>
+         <obj_property name="ObjectShortName">RdW[4:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/StallF" type="logic">
+         <obj_property name="ElementShortName">StallF</obj_property>
+         <obj_property name="ObjectShortName">StallF</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/StallD" type="logic">
+         <obj_property name="ElementShortName">StallD</obj_property>
+         <obj_property name="ObjectShortName">StallD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/FlushD" type="logic">
+         <obj_property name="ElementShortName">FlushD</obj_property>
+         <obj_property name="ObjectShortName">FlushD</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/FlushE" type="logic">
+         <obj_property name="ElementShortName">FlushE</obj_property>
+         <obj_property name="ObjectShortName">FlushE</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/ForwardAE" type="array">
+         <obj_property name="ElementShortName">ForwardAE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ForwardAE[1:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Hazards/ForwardBE" type="array">
+         <obj_property name="ElementShortName">ForwardBE[1:0]</obj_property>
+         <obj_property name="ObjectShortName">ForwardBE[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Fetch/InstrF" type="array">
+      <obj_property name="ElementShortName">InstrF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">InstrF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/InstrD" type="array">
+      <obj_property name="ElementShortName">InstrD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">InstrD[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RD1D" type="array">
+      <obj_property name="ElementShortName">RD1D[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD1D[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RD2D" type="array">
+      <obj_property name="ElementShortName">RD2D[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD2D[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/RD1E" type="array">
+      <obj_property name="ElementShortName">RD1E[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD1E[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/RD2E" type="array">
+      <obj_property name="ElementShortName">RD2E[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD2E[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Execute/ALUResultE" type="array">
+      <obj_property name="ElementShortName">ALUResultE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ALUResultE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/ALUResultM" type="array">
+      <obj_property name="ElementShortName">ALUResultM[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ALUResultM[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_RISCV_Processor/DUT/WriteBack/ResultW" type="array">
+      <obj_property name="ElementShortName">ResultW[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ResultW[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group406" type="group">
+      <obj_property name="label">Registros</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[6]" type="array">
+         <obj_property name="ElementShortName">[6][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[5]" type="array">
+         <obj_property name="ElementShortName">[5][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[4]" type="array">
+         <obj_property name="ElementShortName">[4][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[3]" type="array">
+         <obj_property name="ElementShortName">[3][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[2]" type="array">
+         <obj_property name="ElementShortName">[2][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_RISCV_Processor/DUT/Decode/RegFile/Registers[1]" type="array">
+         <obj_property name="ElementShortName">[1][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

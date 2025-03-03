@@ -1,36 +1,51 @@
+`timescale 1ns / 1ps
 
 // Register_File
 ////// Falta checkear si es necesario el posedge (comparar)
 ////////////////////////////
 
 module Register_File(
-	input logic clk, rst,  WriteEnable,		// Recordar negar clk, WE3
+	input logic clk, rst,  WriteEnable,		// WE3
 	input logic [4:0] Register1, Register2, RegisterDestination,  // A1, A2, A3
 	input logic [31:0] WriteData,			// WD3		
-	output logic [31:0] RegisterData1, RegisterData2	// RD1, RD2
+	output logic [31:0] RegisterData1, RegisterData2	// RD1D, RD2D
 );
-
-    logic [31:0] Register [31:0];					// Declaraci贸n de array de 31 registros de 31 bits
-    assign Register[0] = 32'h0;
-
-    always_ff @(negedge clk or posedge rst) begin	// Inicializaci贸n de register_file
-        if (rst) 
-            for (int i = 1; i < 32; i++)            // Todos los registros = 0 (excepto 0x0(zero))
-                Register[i] <= 32'b0;	
-				
-        else if (WriteEnable && RegisterDestination != 5'b0)
-            Register[RegisterDestination] <= WriteData; 					// ResultW se escribe en el registro de destino RdW	
+    
+    // Declaracion de array de 32 registros de 32 bits
+    logic [31:0] Registers [31:0];					
+  
+    always_ff @(negedge clk or posedge rst) begin	
+    
+        // Inicializacion de register_file
+        if (rst) begin
+            Registers[0] <= 32'h0;
+            Registers[1] <= 32'h5555;
+			Registers[2] <= 32'h3333;
+            for (int i = 3; i < 32; i++)            
+                Registers[i] <= 32'b0;	
+		end
+		
+		// Para que ResultW se escribe en el registro de destino RdW	
+        else if (WriteEnable && RegisterDestination != 5'b0)        
+            Registers[RegisterDestination] <= WriteData; 			
     end
 
-    assign RegisterData1 = (Register1 == 5'b0) ? 32'b0 : Register[Register1];	//asignaci贸n de registros (posiblemente operandos) para ser utilizados luego 
-    assign RegisterData2 = (Register2 == 5'b0) ? 32'b0 : Register[Register2];
-
+    /* Busqueda de registros en base a sus entradas Register1 y Register2
+    (Dentro de always_comb para prevenir inferencias (latches)*/
+    always_comb begin
+        if (Register1 != 5'h0)
+            RegisterData1 = Registers[Register1];
+        else 
+            RegisterData1 = 32'b0;
+           
+        if (Register2 != 5'h0)
+            RegisterData2 = Registers[Register2];
+        else 
+            RegisterData2 = 32'b0;
+    end
 endmodule
 /* 
-	llegan los registros 1 y 2 de 5 bits c/u y si WE3==1, se escriben los datos que existen 
-	en WD3 en la direcci贸n dada por Register[RegisterDestination], significando esto
-	que RegisterDestination entregar谩 la posici贸n en la que se deber谩 escribir el dato.
-	Dato que tedr谩 32 bits.
-	Esto significar铆a que solo se pueden almacenar datos en 31 registros (sin el x0).
-	Aparentemente esto significa que los registros son Word Addressable?
+    Aparentemente los registros actualmente son word-addressable
+    Register1 y Register2 son indicadores de la posici髇 de datos de array
+    WriteData se escribe en Registers[Rd]
 */

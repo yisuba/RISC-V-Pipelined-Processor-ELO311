@@ -26,9 +26,10 @@ module Fetch_Stage(
         case(PCSrcE)								// Podría utilizarse "assign PCF_preff = PCSrcE ? PCTargetE : PCPlus4F;" para simplificar
             1'b0: PCF_preff = PCPlus4F;
             1'b1: PCF_preff = PCTargetE;
+            default: PCF_preff = PCPlus4F;
         endcase 
     end
-
+    
     always_ff @(posedge clk or posedge rst) begin  	// FF del PC
         if(rst)
             PCF_postff <= 32'b0;
@@ -38,9 +39,10 @@ module Fetch_Stage(
 
 	assign PCPlus4F = PCF_postff + 32'd4;           // Adder para el PC+4
 
-	Instruction_Memory InstrMem(					// Instruction Memory *
-	.Address(PCF_postff),
-	.Instruction(InstrF)						
+    // Instancia de Instruction Memory 
+	Instruction_Memory InstrMem(					
+        .Address(PCF_postff),
+        .Instruction(InstrF)						
 	);
 
 endmodule

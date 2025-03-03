@@ -1,11 +1,13 @@
+`timescale 1ns / 1ps
 
 // Immediate / Extend
-////// Aparentemente listo, falta agregar testbench
+/// *** Para B and J types, el valor de inmediato no tiene offset de 2 bits sino solo de 1
 ////////////////////////////
 
 module Extend(
+	input logic [2:0] ImmSrcD,			
 	input logic [31:0] InstrD,
-	input logic [2:0] ImmSrcD,			// modificado de la imagen de referencia (2bits)
+	
 	output logic [31:0] ExtImmD
 );
 	
@@ -26,7 +28,7 @@ module Extend(
 			3'b100:		// J-Type (no [0] por direcciones)
 				ExtImmD = {{11{InstrD[31]}}, InstrD[31], InstrD[19:12], InstrD[20], InstrD[30:21], 1'b0};
 				
-			default: ExtImmD = 32'b0;
+			default: ExtImmD = 32'bx;
 		endcase
 	end
 endmodule

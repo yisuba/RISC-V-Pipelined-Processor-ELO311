@@ -1,94 +1,107 @@
+`timescale 1ns / 1ps
 
 // Control_Unit
-////// Solo están relativamente bien definidas las instrucciones R-type
-///// FALTA perfeccionar cada una de las instrucciones
-///// slli, srli, srai tienen una convención inversa de imm (imm[5:11]), se cambi� para simular
-/// JumpD
-/// BranchD	se activa en caso de que la instrucción sea un condicional
-/// AluSrcD	define si ALU tomará el operando rs2 o del imm
-///	ResultSrcD
-/// ImmSrcD selecciona como extender el campo immediate
-/// ALUControlD define que operación tendrá que realizar la ALU
+////// Solo estan relativamente bien definidas las instrucciones R-type
+///// FALTA perfeccionar conocimiento con respecto acada una de los tipos de instr.
+/// Funcionamiento no optimizado para srli y srai (problema con ecall y ebreak)
 ////////////////////////////
 
 module Control_Unit(
-	input logic [31:0] InstrD,
-	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,	
-	output logic [1:0] ResultSrcD, 
-	output logic [2:0] ImmSrcD,							
+	input logic [2:0] funct3, 
+	input logic [6:0] op, funct7,
+	
+	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,	JalrD,	
+	output logic [1:0] ResultSrcD, StoreTypeD,
+	output logic [2:0] ImmSrcD,	LoadTypeD, BranchTypeD,					
 	output logic [3:0] ALUControlD									
 );
-
-	logic [6:0] op;		
-	assign op = InstrD[6:0];
-	logic [2:0] funct3;
-	assign funct3 = InstrD[14:12];
-	logic [6:0] funct7;
-	assign funct7 = InstrD[31:25];
-    logic [11:0] imm;
-    assign imm = InstrD[31:20];
    
 //PROTOTIPO MIO (POCO CLARO)
     always_comb begin
-        case (op) 
-            7'b011_0011: begin							// R-type
+         
+        logic [6:0] imm; 
+               
+        case (op)
+        // R-type  
+            7'b011_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'bx;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b0;
-                ImmSrcD = 3'bxxx;
+                ImmSrcD = 3'bx;
+                LoadTypeD = 3'bx; 
+				StoreTypeD = 4'bx;
+				BranchTypeD = 4'bx; 
+				JalrD = 1'bx;
                 
-                case(funct3) 							//Qué instrucción del tipo R?
+                case(funct3) 							//Que instruccion del tipo R?
                     3'h0: begin
                         if (funct7 == 7'h00)			
                             ALUControlD = 4'b0000;		// add
                         else if (funct7 == 7'h20)						
                             ALUControlD	= 4'b0001;		// sub
+                        else 
+                            ALUControlD = 4'bx;
                     end
                     3'h4: ALUControlD = 4'b0010;		// xor
                     3'h6: ALUControlD = 4'b0011;		// or
                     3'h7: ALUControlD = 4'b0100;		// and
                     3'h1: ALUControlD = 4'b0101;		// sll
                     3'h5: begin
-                        if (funct7 ==7'h00)		// srl
+                        if (funct7 == 7'h00)		    // srl
                             ALUControlD = 4'b0110;
-                        else if (funct7 == 7'h20)						// sra
+                        else if (funct7 == 7'h20)	    // sra
                             ALUControlD = 4'b0111;
-                    end
+                        else 
+                            ALUControlD = 4'bx;
+                          end
                     3'h2: ALUControlD = 4'b1000;		// slt
                     3'h3: ALUControlD = 4'b1001;		// sltu
+                    default: ALUControlD = 4'bx;
                 endcase
-            end
+            end          
             
-            7'b001_0011: begin							// I-type (W/ no memory)		***CORREGIR SLLI, SRLI, SRAI****
+            
+        // I-type (W/ no memory)		***SLLI, SRLI, SRAI con imm invertido (?         
+            7'b001_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'bx;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b000;
-                
-                case(funct3)							//Qué instrucción del tipo I? 
+                LoadTypeD = 3'bx; 
+				StoreTypeD = 4'bx;               
+				BranchTypeD = 4'bx;
+				JalrD = 1'bx;	
+				                
+                case(funct3)							//Que instruccion del tipo I? 
                     3'h0: ALUControlD = 4'b0000;		// addi							
                     3'h4: ALUControlD = 4'b0010;		// xori 
                     3'h6: ALUControlD = 4'b0011;		// ori
                     3'h7: ALUControlD = 4'b0100;		//andi
                     3'h1: ALUControlD = 4'b0101;		//slli* 
                     3'h5: begin
-                                if(imm[11:5] == 7'h00)				//srli*
-                                    ALUControlD = 4'b0110;
-                                else if(imm[11:5] == 7'h20)			//srai*
-                                    ALUControlD = 4'b0111;
-                            end
+                            imm = {funct7[0], funct7[1], funct7[2], funct7[3], funct7[4], funct7[5], funct7[6]};
+                            if (imm == 7'h00)				//srli*
+                                ALUControlD = 4'b0110;
+                            else if (imm == 7'h20)			//srai*
+                                ALUControlD = 4'b0111;
+                            else 
+                                ALUControlD = 4'bx;
+                          end
                     3'h2: ALUControlD = 4'b1000; 		//slti
                     3'h3: ALUControlD = 4'b1001;		//sltiu
+                    default: ALUControlD = 4'bx;
                 endcase
             end
-    	/*
-            7'b000_0011: begin							// I-type (W/ memory (load))	***CORREGIR ImmSrcD***
+
+
+        // I-type (W/ memory (load))	
+            7'b000_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b01;
                 MemWriteD = 1'b0;
@@ -96,204 +109,179 @@ module Control_Unit(
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b000;
-				ALUControlD = 4'b0001; //rd = M[rs1+imm]
-                
-                case(funct3) 							//Qué instrucción load?
-                    3'h0: ; //lb
-                    3'h1: ; //lh
-                    3'h2: ; //lw
-                    3'h4: ; //lbu
-                    3'h5: ; //lhu
+				ALUControlD = 4'b0000; //rd = M[rs1+imm]
+				StoreTypeD = 4'bx;
+				BranchTypeD = 4'bx;
+				JalrD = 1'bx;
+				                
+                case(funct3) 							//Que instruccion load?
+                    3'h0: LoadTypeD = 3'b000; //lb
+                    3'h1: LoadTypeD = 3'b001; //lh
+                    3'h2: LoadTypeD = 3'b010; //lw
+                    3'h4: LoadTypeD = 3'b011; //lbu
+                    3'h5: LoadTypeD = 3'b100; //lhu
+                    default: LoadTypeD = 3'bx;
                 endcase
             end
             
-            7'b010_0011: begin							// S-type 						***
-                RegWriteD = 1'b1;
+            
+        // S-type 						***    
+            7'b010_0011: begin							
+                RegWriteD = 1'b0;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'b1;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b001;
-                
-                case(funct3) 							//Qué instrucción store? 
-                    3'b000: //sb
-                    3'b001: //sh
-                    3'b010: //sw
+                ALUControlD = 4'b0000;
+                LoadTypeD = 3'bx;
+				BranchTypeD = 4'bx;
+				JalrD = 1'bx;
+				                
+                case(funct3) 							//Que instruccion store? 
+                    3'h0: StoreTypeD = 2'b00; //sb
+                    3'h1: StoreTypeD = 2'b01; //sh
+                    3'h2: StoreTypeD = 2'b10; //sw
+                    default: StoreTypeD = 2'bx;
                 endcase
             end
-            
-            7'b110_0011: begin							// B-type						***
-                RegWriteD = 1'b1;
+ 
+
+        // B-type						***           
+            7'b110_0011: begin							
+                RegWriteD = 1'b0;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'bx;
                 JumpD = 1'b0;
-                BranchD = 1'b0;
-                AluSrcD = 1'b1;
+                BranchD = 1'b1;
+                AluSrcD = 1'b0;
                 ImmSrcD = 3'b010;
-                
-                case(funct3)							//Qué instrucción branch? 		
-                    3'b000: // beq
-                    3'b001: // bne
-                    3'b100: // blt
-                    3'b101: // bge
-                    3'b110: // bltu
-                    3'b111: // bgeu
+                LoadTypeD = 3'bx;
+                StoreTypeD = 2'bx;
+ 				JalrD = 1'b0;
+               
+                case(funct3)							//Que instruccion branch? 		
+                    3'h0: begin                     // beq 
+                            BranchTypeD = 3'h0;
+                            ALUControlD = 4'b0001;
+                          end    
+                    3'h1: begin                     // bne 
+                            BranchTypeD = 3'h1;
+                            ALUControlD = 4'b0001;
+                          end
+                    3'h4: begin                     // blt 
+                            BranchTypeD = 3'h4;
+                            ALUControlD = 4'b1000;
+                          end
+                    3'h5: begin                     // bge 
+                            BranchTypeD = 3'h5;
+                            ALUControlD = 4'b1000;
+                          end
+                    3'h6: begin                     // bltu 
+                            BranchTypeD = 3'h6;
+                            ALUControlD = 4'b1001;
+                          end 
+                    3'h7: begin                     // bgeu 
+                            BranchTypeD = 3'h7;
+                            ALUControlD = 4'b1001;
+                          end 
+                    default: begin
+                                BranchTypeD = 3'hx;
+                                ALUControlD = 4'hx;
+                             end
                 endcase
             end
-            
-            7'b110_1111: begin							// J-type (jal)					***
+        
+        
+        // J-type (jal)					***            
+            7'b110_1111: begin							
                 RegWriteD = 1'b1;
-                ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
-                JumpD = 1'b0;
+                ResultSrcD = 2'b10;
+                MemWriteD = 1'bx;
+                JumpD = 1'b1;
                 BranchD = 1'b0;
-                AluSrcD = 1'b1;
+                AluSrcD = 1'bx;
                 ImmSrcD = 3'b100;
-            
+                ALUControlD = 4'hx;
+                LoadTypeD = 3'bx;
+                StoreTypeD = 2'bx;           
+                BranchTypeD = 3'hx;
+				JalrD = 1'b0;
             end
-            
-            7'b110_0111: begin							// I-type (jalr) 				***
+  
+          
+        // I-type (jalr) 				***            
+            7'b110_0111: begin							
                 RegWriteD = 1'b1;
-                ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
-                JumpD = 1'b0;
+                ResultSrcD = 2'b10;
+                MemWriteD = 1'bx;
+                JumpD = 1'b1;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b000;
-                
-                if(funct3)
-                    
+                ALUControlD = 4'hx;
+                LoadTypeD = 3'bx;
+                StoreTypeD = 2'bx;           
+                BranchTypeD = 3'hx;                
+				JalrD = 1'b1;
             end
-            
-            7'b011_0111: begin							// U-type (lui) 				***
+
+/*        
+        // U-type (lui) 				***            
+            7'b011_0111: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'bx;
+                JumpD = 1'b0;
+                BranchD = 1'b0;
+                AluSrcD = 1'b1;
+                ImmSrcD = 3'b011;
+                ALUControlD = 4'hx; **
+                LoadTypeD = 3'bx;
+                StoreTypeD = 2'bx;           
+                BranchTypeD = 3'hx;                
+				JalrD = 1'bx;            
+            end
+
+
+        // U-type (auipc)				***            
+            7'b001_0111: begin							
+                RegWriteD = 1'b1;
+                ResultSrcD = 2'b00;
+                MemWriteD = 1'bx;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b011;
             
             end
-            
-            7'b001_0111: begin							// U-type (auipc)				***
+ 
+ 
+        // I-type (ecall / eberak)		***Transfer control to OS/debugger           
+            7'b111_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
+                MemWriteD = 1'bx;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
-                ImmSrcD = 3'b011;
-            
+                ImmSrcD = 3'bx;
             end
-            
-            7'b111_0011: begin							// I-type (ecall / eberak)		***Transfer control to OS/debugger
-                RegWriteD = 1'b1;
-                ResultSrcD = 2'b00;
-                MemWriteD = 1'b0;
-                JumpD = 1'b0;
-                BranchD = 1'b0;
-                AluSrcD = 1'b1;
-                ImmSrcD = 3'b000;
-            end
-            
-            default: 									//default
-	*/	endcase
-    end
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-/*	always_comb begin
-		case ({op, funct3, funct7})
-			{7'b011_0011, 3'b000, 7'b000_0000}:	begin 										//add		R-type
-				ALUControlD = 4'b0000; 				
-				RegWriteD = 1'b1;  
-			end											
-			{7'b011_0011, 3'b000, 7'b010_0000}:	begin 										//sub		
-				ALUControlD = 4'b0001; 					
-				RegWriteD = 1'b1;  
-			end
-			{7'b011_0011, 3'b100, 7'b000_0000}:	begin 										//xor		
-				ALUControlD = 4'b0010; 					
-				RegWriteD = 1'b1;  
-			end
-			{7'b011_0011, 3'b110, 7'b000_0000}:	begin 										//or
-				ALUControlD = 4'b0011; 				
-				RegWriteD = 1'b1;  
-			end
-			{7'b011_0011, 3'b111, 7'b000_0000}:	begin 										//and
-				ALUControlD = 4'b0100; 					
-				RegWriteD = 1'b1;  
-			end
-			{7'b011_0011, 3'b001, 7'b000_0000}:	begin 										//sll
-				ALUControlD = 4'b0101; 					
-				RegWriteD = 1'b1;  
-			end						
-			{7'b011_0011, 3'b101, 7'b000_0000}:	begin 										//srl
-				ALUControlD = 4'b0110;	
-				RegWriteD = 1'b1;  
-			end
-			{7'b011_0011, 3'b101, 7'b010_0000}:	begin										//sra
-				ALUControlD = 4'b0111;		
-				RegWriteD = 1'b1;
-			end
-			{7'b011_0011, 3'b010, 7'b000_0000}:	begin										//slt
-				ALUControlD = 4'b1000;				
-				RegWriteD = 1'b1;
-			end			
-			{7'b011_0011, 3'b011, 7'b000_0000}:	begin										//sltu
-				ALUControlD = 4'b1001;			
-				RegWriteD = 1'b1;
-			end
-			
-			/*{7'b001_0011, 3'b000, 7'bxxx_xxxx}:												//addi		I-type (W/ no memory)
-			{7'b001_0011, 3'b100, 7'bxxx_xxxx}:												//xori		
-			{7'b001_0011, 3'b110, 7'bxxx_xxxx}:												//ori
-			{7'b001_0011, 3'b111, 7'bxxx_xxxx}:												//andi
-			{7'b001_0011, 3'b001, 7'bxxx_xxxx}:												//slli		**
-			{7'b001_0011, 3'b101, 7'bxxx_xxxx}:												//srli		**
-			{7'b001_0011, 3'b101, 7'bxxx_xxxx}:												//srai		
-			{7'b001_0011, 3'b010, 7'bxxx_xxxx}:												//slti
-			{7'b001_0011, 3'b011, 7'bxxx_xxxx}:												//sltiu	
-
-			{7'b000_0011, 3'b000, 7'bxxx_xxxx}:							//lb		I-type (W/ memory)
-			{7'b000_0011, 3'b001, 7'bxxx_xxxx}:							//lh	
-			{7'b000_0011, 3'b010, 7'bxxx_xxxx}:							//lw	
-			{7'b000_0011, 3'b100, 7'bxxx_xxxx}:							//lbu
-			{7'b000_0011, 3'b101, 7'bxxx_xxxx}:							//lhu
-
-			{7'b010_0011, 3'b000, 7'bxxx_xxxx}:							//sb		S-type 
-			{7'b010_0011, 3'b001, 7'bxxx_xxxx}:							//sh
-			{7'b010_0011, 3'b010, 7'bxxx_xxxx}:							//sw
-			
-			{7'b110_0011, 3'b000, 7'bxxx_xxxx}:							//beq		B-type	
-			{7'b110_0011, 3'b001, 7'bxxx_xxxx}:							//bne
-			{7'b110_0011, 3'b100, 7'bxxx_xxxx}:							//blt
-			{7'b110_0011, 3'b101, 7'bxxx_xxxx}:							//bge
-			{7'b110_0011, 3'b110, 7'bxxx_xxxx}:							//bltu
-			{7'b110_0011, 3'b111, 7'bxxx_xxxx}:							//bgeu		
-
-			{7'b110_1111, 3'bxxx, 7'bxxx_xxxx}:							//jal		J-type (jal)
-			
-			{7'b110_0111, 3'b000, 7'bxxx_xxxx}:							//jalr		I-type (jalr)
-			
-			{7'b011_0111, 3'bxxx, 7'bxxx_xxxx}:							//lui		U-type
-			{7'b001_0111, 3'bxxx, 7'bxxx_xxxx}:							//auipc
-		
-			{7'b111_0011, 3'b000, 7'bxxx_xxxx}:							//ecall		I-type  **
-			{7'b111_0011, 3'b000, 7'bxxx_xxxx}:							//ebreak			**
-
-			default:													// Undefined instruction
+      */      
+            default: begin
+                        RegWriteD = 1'bx;
+                        ResultSrcD = 2'bx;
+                        MemWriteD = 1'bx;
+                        JumpD = 1'bx;
+                        BranchD = 1'bx;
+                        AluSrcD = 1'bx;
+                        ImmSrcD = 3'bx;
+                        LoadTypeD = 3'bx;
+                        StoreTypeD = 2'bx;
+                        BranchTypeD = 3'hx;
+                        ALUControlD = 4'bx;
+                     end 									
 		endcase
-	end
-*/
+    end
 endmodule
