@@ -180,7 +180,7 @@ module RISCV_Processor(
             RegWriteM <= RegWriteE;
             ResultSrcM <= ResultSrcE;
             LoadTypeM <= LoadTypeE;
-            StoreTypeM <= StoreTypeM;
+            StoreTypeM <= StoreTypeE;
             MemWriteM <= MemWriteE;
 			ALUResultM <= ALUResultE;
 			WriteDataM <= WriteDataE;
