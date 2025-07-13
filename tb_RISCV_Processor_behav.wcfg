@@ -12,12 +12,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="14.680 ns"></ZoomStartTime>
-      <ZoomEndTime time="51.065 ns"></ZoomEndTime>
+      <ZoomEndTime time="56.687 ns"></ZoomEndTime>
       <Cursor1Time time="40.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="225"></NameColumnWidth>
-      <ValueColumnWidth column_width="98"></ValueColumnWidth>
+      <ValueColumnWidth column_width="93"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="18" />
    <wvobject fp_name="/tb_RISCV_Processor/clk" type="logic">
