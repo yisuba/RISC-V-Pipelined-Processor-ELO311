@@ -57,7 +57,7 @@ module Execute_Stage(
 			default: SrcBE = 32'bx;
 		endcase
 		
-		PCSrcE = (BranchTakenE && BranchE) || JumpE; 
+		PCSrcE = (BranchTakenE && BranchE) || JumpE; 		//BranchTaken es un simil de ZeroE del esquema de microarquitectura
 		PCTargetE = SrcAdderE + ExtImmE;	 				//verificar Adder
 	end
 	

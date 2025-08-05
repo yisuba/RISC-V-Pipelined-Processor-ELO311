@@ -30,7 +30,7 @@ module ALU_Modded #(parameter Bits = 32)(
 
         case (BranchType)						//Que instruccion branch? 		
             3'h0: BranchTaken = (Result == {Bits{1'b0}});        // beq DONE (sub)
-            3'h1: BranchTaken = (Result != {Bits{1'b0}});             // bne DONE (sub)
+            3'h1: BranchTaken = (Result != {Bits{1'b0}});        // bne DONE (sub)
             3'h4: BranchTaken = Result;                          // blt DONE (slt)
             3'h5: BranchTaken = ~Result;                         // bge DONE (~slt)
             3'h6: BranchTaken = Result;                          // bltu DONE (sltu)

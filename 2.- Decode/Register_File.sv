@@ -19,8 +19,8 @@ module Register_File(
         // Inicializacion de register_file
         if (rst) begin
             Registers[0] <= 32'h0;
-            Registers[1] <= 32'h5555;
-			Registers[2] <= 32'h3333;
+            Registers[1] <= 32'h5;
+			Registers[2] <= 32'h3;
             for (int i = 3; i < 32; i++)            
                 Registers[i] <= 32'b0;	
 		end
@@ -30,9 +30,8 @@ module Register_File(
             Registers[RegisterDestination] <= WriteData; 			
     end
 
-    /* Busqueda de registros en base a sus entradas Register1 y Register2
-    (Dentro de always_comb para prevenir inferencias (latches)*/
-    always_comb begin
+    // Busqueda de registros en base a sus entradas Register1 y Register2
+    always_ff @(posedge clk) begin
         if (Register1 != 5'h0)
             RegisterData1 = Registers[Register1];
         else 

@@ -2,7 +2,6 @@
 
 // Control_Unit
 ////// Solo estan relativamente bien definidas las instrucciones R-type
-///// FALTA perfeccionar conocimiento con respecto acada una de los tipos de instr.
 /// Funcionamiento no optimizado para srli y srai (problema con ecall y ebreak)
 ////////////////////////////
 
@@ -12,29 +11,28 @@ module Control_Unit(
 	
 	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,	JalrD,	
 	output logic [1:0] ResultSrcD, StoreTypeD,
-	output logic [2:0] ImmSrcD,	LoadTypeD, BranchTypeD,					
+	output logic [2:0] ImmSrcD,	LoadTypeD, BranchTypeD,				//NoBranch -> 3'h2	
 	output logic [3:0] ALUControlD									
 );
    
 //PROTOTIPO MIO (POCO CLARO)
     always_comb begin
-         
-        logic [6:0] imm; 
+        logic [6:0] imm;
                
         case (op)
         // R-type  
             7'b011_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b0;
                 ImmSrcD = 3'bx;
                 LoadTypeD = 3'bx; 
 				StoreTypeD = 4'bx;
-				BranchTypeD = 4'bx; 
-				JalrD = 1'bx;
+				BranchTypeD = 3'h2; 
+				JalrD = 1'b0;
                 
                 case(funct3) 							//Que instruccion del tipo R?
                     3'h0: begin
@@ -68,15 +66,15 @@ module Control_Unit(
             7'b001_0011: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b000;
                 LoadTypeD = 3'bx; 
 				StoreTypeD = 4'bx;               
-				BranchTypeD = 4'bx;
-				JalrD = 1'bx;	
+				BranchTypeD = 3'h2; 
+				JalrD = 1'b0;	
 				                
                 case(funct3)							//Que instruccion del tipo I? 
                     3'h0: ALUControlD = 4'b0000;		// addi							
@@ -111,8 +109,8 @@ module Control_Unit(
                 ImmSrcD = 3'b000;
 				ALUControlD = 4'b0000; //rd = M[rs1+imm]
 				StoreTypeD = 4'bx;
-				BranchTypeD = 4'bx;
-				JalrD = 1'bx;
+				BranchTypeD = 3'h2; 
+				JalrD = 1'b0;
 				                
                 case(funct3) 							//Que instruccion load?
                     3'h0: LoadTypeD = 3'b000; //lb
@@ -136,8 +134,8 @@ module Control_Unit(
                 ImmSrcD = 3'b001;
                 ALUControlD = 4'b0000;
                 LoadTypeD = 3'bx;
-				BranchTypeD = 4'bx;
-				JalrD = 1'bx;
+				BranchTypeD = 3'h2; 
+				JalrD = 1'b0;
 				                
                 case(funct3) 							//Que instruccion store? 
                     3'h0: StoreTypeD = 2'b00; //sb
@@ -152,7 +150,7 @@ module Control_Unit(
             7'b110_0011: begin							
                 RegWriteD = 1'b0;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b0;
                 BranchD = 1'b1;
                 AluSrcD = 1'b0;
@@ -161,7 +159,7 @@ module Control_Unit(
                 StoreTypeD = 2'bx;
  				JalrD = 1'b0;
                
-                case(funct3)							//Que instruccion branch? 		
+                case(funct3)					//Que instruccion branch? 		
                     3'h0: begin                     // beq 
                             BranchTypeD = 3'h0;
                             ALUControlD = 4'b0001;
@@ -187,7 +185,7 @@ module Control_Unit(
                             ALUControlD = 4'b1001;
                           end 
                     default: begin
-                                BranchTypeD = 3'hx;
+                                BranchTypeD = 3'h2;
                                 ALUControlD = 4'hx;
                              end
                 endcase
@@ -198,7 +196,7 @@ module Control_Unit(
             7'b110_1111: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b10;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b1;
                 BranchD = 1'b0;
                 AluSrcD = 1'bx;
@@ -206,7 +204,7 @@ module Control_Unit(
                 ALUControlD = 4'hx;
                 LoadTypeD = 3'bx;
                 StoreTypeD = 2'bx;           
-                BranchTypeD = 3'hx;
+                BranchTypeD = 3'h2; 
 				JalrD = 1'b0;
             end
   
@@ -215,7 +213,7 @@ module Control_Unit(
             7'b110_0111: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b10;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b1;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
@@ -223,7 +221,7 @@ module Control_Unit(
                 ALUControlD = 4'hx;
                 LoadTypeD = 3'bx;
                 StoreTypeD = 2'bx;           
-                BranchTypeD = 3'hx;                
+                BranchTypeD = 3'h2;                 
 				JalrD = 1'b1;
             end
 
@@ -232,7 +230,7 @@ module Control_Unit(
             7'b011_0111: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b1;
@@ -240,7 +238,7 @@ module Control_Unit(
                 ALUControlD = 4'hx; **
                 LoadTypeD = 3'bx;
                 StoreTypeD = 2'bx;           
-                BranchTypeD = 3'hx;                
+                BranchTypeD = 3'h2;                 
 				JalrD = 1'bx;            
             end
 
@@ -249,9 +247,9 @@ module Control_Unit(
             7'b001_0111: begin							
                 RegWriteD = 1'b1;
                 ResultSrcD = 2'b00;
-                MemWriteD = 1'bx;
+                MemWriteD = 1'b0;
                 JumpD = 1'b0;
-                BranchD = 1'b0;
+                BranchTypeD = 3'h2; 
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'b011;
             
@@ -264,23 +262,24 @@ module Control_Unit(
                 ResultSrcD = 2'b00;
                 MemWriteD = 1'bx;
                 JumpD = 1'b0;
-                BranchD = 1'b0;
+                BranchTypeD = 3'h2; 
                 AluSrcD = 1'b1;
                 ImmSrcD = 3'bx;
             end
       */      
             default: begin
-                        RegWriteD = 1'bx;
-                        ResultSrcD = 2'bx;
-                        MemWriteD = 1'bx;
-                        JumpD = 1'bx;
-                        BranchD = 1'bx;
+                        RegWriteD = 1'b0;
+                        ResultSrcD = 2'b00;
+                        MemWriteD = 1'b0;
+                        JumpD = 1'b0;
+                        BranchD = 1'b0;
                         AluSrcD = 1'bx;
                         ImmSrcD = 3'bx;
                         LoadTypeD = 3'bx;
                         StoreTypeD = 2'bx;
-                        BranchTypeD = 3'hx;
+                        BranchTypeD = 3'h2;
                         ALUControlD = 4'bx;
+       			      	JalrD = 1'b0;
                      end 									
 		endcase
     end

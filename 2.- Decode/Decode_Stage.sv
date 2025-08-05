@@ -30,9 +30,16 @@ module Decode_Stage(
     assign A2 = InstrD[24:20];
         
     assign Rs1D = InstrD[19:15];		
-    assign Rs2D = InstrD[24:20];
-    assign RdD = InstrD[11:7];     
-	
+    assign RdD = InstrD[11:7];
+    
+    // para evitar que rs2d = immediate para las instrucciones I imm, I load, S, J, Jalr
+    always_comb begin
+	if(opcode == 7'b001_0011 || opcode == 7'b000_0011 || opcode == 7'b010_0011 || opcode == 7'b110_1111 || opcode == 7'b110_0111)
+        Rs2D = 5'b0;
+    else
+        Rs2D = InstrD[24:20];
+    end
+
 	
 	// instancia de ControlUnit
 	Control_Unit CtrlUnit(				
@@ -56,7 +63,7 @@ module Decode_Stage(
     // instancia de RegisterFile
 	Register_File RegFile(				
         .clk(clk),
-        .rst(rst),							// verificar si es necesario el rst
+        .rst(rst),							
         .WriteEnable(RegWriteW),
         .Register1(A1),
         .Register2(A2),

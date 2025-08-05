@@ -12,12 +12,12 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="14.680 ns"></ZoomStartTime>
-      <ZoomEndTime time="56.687 ns"></ZoomEndTime>
+      <ZoomEndTime time="82.729 ns"></ZoomEndTime>
       <Cursor1Time time="40.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="225"></NameColumnWidth>
-      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="18" />
    <wvobject fp_name="/tb_RISCV_Processor/clk" type="logic">
@@ -323,10 +323,6 @@
       <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/ReadDataM" type="array">
          <obj_property name="ElementShortName">ReadDataM[31:0]</obj_property>
          <obj_property name="ObjectShortName">ReadDataM[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_RISCV_Processor/DUT/Memory/WriteDataM_processed" type="array">
-         <obj_property name="ElementShortName">WriteDataM_processed[31:0]</obj_property>
-         <obj_property name="ObjectShortName">WriteDataM_processed[31:0]</obj_property>
       </wvobject>
    </wvobject>
    <wvobject fp_name="group85" type="group">
