@@ -1,5 +1,5 @@
 # RISC-V-Pipelined-Processor-ELO311
-Este repositorio almacena un procesador RISC-V con pipeline con las 5 etapas revisadass a lo largo del curso ELO311 (Estructura de Computadores), siendo estas: Instruction Fetch, Instruction Decode, Execute, Memory Access y Writeback.
+Este repositorio almacena un procesador RISC-V con pipeline que cuenta con las 5 etapas revisadass a lo largo del curso ELO311 (Estructura de Computadores), siendo estas: Instruction Fetch, Instruction Decode, Execute, Memory Access y Writeback.
 Todos estos módulos (y sus respectivos submódulos) fueron descritos a modo de proyecto para presentar para este mismo curso.
 
 # Notas Adicionales
