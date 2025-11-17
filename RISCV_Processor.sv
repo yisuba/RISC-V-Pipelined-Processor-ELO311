@@ -95,7 +95,7 @@ module RISCV_Processor(
             ResultSrcE <= 2'b0;
             LoadTypeE <= 3'b0;
 			StoreTypeE <= 2'b0;
-			BranchTypeE <= 3'b0;
+			BranchTypeE <= 3'h2;
 			JalrE <= 1'b0;
             MemWriteE <= 1'b0;
 			JumpE <= 1'b0;

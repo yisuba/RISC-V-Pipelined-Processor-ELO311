@@ -17,6 +17,7 @@ module tb_RISCV_Processor;
         #2 /*3ns*/ rst = 0;
 		#7; //10ns
         #200; //210ns
+        #300; //500ns
         
         $finish;
 	end

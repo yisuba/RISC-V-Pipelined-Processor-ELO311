@@ -11,7 +11,7 @@ module Control_Unit(
 	
 	output logic RegWriteD, MemWriteD, JumpD, BranchD, AluSrcD,	JalrD,	
 	output logic [1:0] ResultSrcD, StoreTypeD,
-	output logic [2:0] ImmSrcD,	LoadTypeD, BranchTypeD,				//NoBranch -> 3'h2	
+	output logic [2:0] ImmSrcD,	LoadTypeD, BranchTypeD,				//Defaults; ImmSrcD -> 3'h5 ; NoBranch -> 3'h2	
 	output logic [3:0] ALUControlD									
 );
    
@@ -28,7 +28,7 @@ module Control_Unit(
                 JumpD = 1'b0;
                 BranchD = 1'b0;
                 AluSrcD = 1'b0;
-                ImmSrcD = 3'bx;
+                ImmSrcD = 3'h5;
                 LoadTypeD = 3'bx; 
 				StoreTypeD = 4'bx;
 				BranchTypeD = 3'h2; 
@@ -274,7 +274,7 @@ module Control_Unit(
                         JumpD = 1'b0;
                         BranchD = 1'b0;
                         AluSrcD = 1'bx;
-                        ImmSrcD = 3'bx;
+                        ImmSrcD = 3'h5;
                         LoadTypeD = 3'bx;
                         StoreTypeD = 2'bx;
                         BranchTypeD = 3'h2;

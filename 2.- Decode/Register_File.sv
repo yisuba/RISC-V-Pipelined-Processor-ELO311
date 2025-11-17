@@ -19,9 +19,16 @@ module Register_File(
         // Inicializacion de register_file
         if (rst) begin
             Registers[0] <= 32'h0;
-            Registers[1] <= 32'h5;
-			Registers[2] <= 32'h3;
-            for (int i = 3; i < 32; i++)            
+            Registers[1] <= 32'h0;
+			Registers[2] <= 32'h0;
+			Registers[3] <= 32'h0;
+			Registers[4] <= 32'h0;
+			Registers[5] <= 32'h0;
+			Registers[6] <= 32'h0;
+			Registers[7] <= 32'h0;
+			Registers[8] <= 32'h400;
+			Registers[9] <= 32'h0;
+            for (int i = 10; i < 32; i++)            
                 Registers[i] <= 32'b0;	
 		end
 		

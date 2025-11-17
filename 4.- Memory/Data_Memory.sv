@@ -22,11 +22,8 @@ module Data_Memory #(parameter WordQuantity = 256, parameter BitSize = 8)(
     always_ff @(negedge clk or posedge rst) begin
     
         // Inicializacion de data_memory
-        if (rst) begin		   
-				Memory[0] <= 32'b0;
-				Memory[1] <= 32'h2222;
-				Memory[2] <= 32'h7777;
-				for (int i = 3; i < WordQuantity; i++)
+        if (rst) begin	
+				for (int i = 0; i < WordQuantity; i++)
 				    Memory[i] <= 32'b0;
 		end
 		

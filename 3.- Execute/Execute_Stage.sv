@@ -27,12 +27,6 @@ module Execute_Stage(
 	logic [31:0] SrcAE, SrcBE, SrcAdderE;
 	
 	always_comb begin
-	//MUX que elige primer operando para Adder (Caso jalr)
-		case(JalrE)
-			1'b0: SrcAdderE = PCE;
-			1'b1: SrcAdderE = RD1E;
-			default: SrcAdderE = 32'bx;
-		endcase
 
 	//MUX que elige primer operando para ALU	
 		case(ForwardAE)								    
@@ -49,6 +43,13 @@ module Execute_Stage(
 			2'b10: WriteDataE = ALUResultM;
 		    default: WriteDataE = 32'bx;
 		endcase
+		
+	//MUX que elige primer operando para Adder (Caso jalr)
+		case(JalrE)
+			1'b0: SrcAdderE = PCE;
+			1'b1: SrcAdderE = SrcAE;     // Support when data forwarding and then jalr
+			default: SrcAdderE = PCE;
+		endcase	
 		
     //MUX que elige si se usa imm para ALU			
 		case(ALUSrcE)			                       
