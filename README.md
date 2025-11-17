@@ -11,3 +11,7 @@ Este "traductor" se realizó a modo de mejorar el flujo de trabajo para lograr i
 
 El modo de uso básico sería ingresar las instrucciones para obtener su respectivo valor hexadecimal y posteriormente esto, ingresarlo al módulo Instruction Memory, el cual 
 posteriormente procesará estas instrucciones.
+
+# -------------- Decisiones propias de diseño ----------------
+- Para Data_Mem, Write_Enable = 0, implica que se realizara una lectura (load), se omite cualquier señal de Mem_Read.
+- Para Reg_File la es sincrónica. Escritura (posedge) y lectura (negedge).
